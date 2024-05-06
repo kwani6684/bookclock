@@ -1,10 +1,6 @@
 export default function Home() {
   return (
     <div className="flex-col justify-center">
-      {/* NavBar */}
-      <div className="flex w-full bg-amber-500 justify-center text-4xl ">
-        책깍책깍
-      </div>
       <div className="flex justify-center">독서관리 타이머 앱</div>
       {/* 벤또 그리드 */}
       <div className="w-full px-4 py-10 bg-cyan-900">

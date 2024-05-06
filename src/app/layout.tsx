@@ -1,3 +1,4 @@
+import NavBar from './components/navBar'
 import './globals.css'
 
 export const metadata = {
@@ -15,6 +16,7 @@ export default function RootLayout({
       <body>
         <div className="flex justify-center bg-black h-[100vh]">
           <div className="justify-center w-[350px] bg-green-400  sm:w-full">
+            <NavBar />
             {children}
           </div>
         </div>
