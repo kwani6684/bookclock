@@ -5,8 +5,8 @@ import { motion } from 'framer-motion'
 interface BentoType {
   content: string
   color: string
-  height: number
-  size: string
+  height?: number
+  size?: string
 }
 
 // 벤또 컴포넌트
