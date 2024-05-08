@@ -3,6 +3,7 @@
 import InfinityTimer from '@/app/components/timer/InfinityTimer'
 import TimerCircle from '@/app/components/timer/timerCircle'
 import TimerSelect from '@/app/components/timer/timerSelect'
+import TimerStart from '@/app/components/timer/timerStart'
 import { RootState } from '@/redux/store'
 import { useSelector } from 'react-redux'
 
@@ -12,10 +13,11 @@ const Timer = () => {
   return (
     <div>
       <TimerSelect />
-      <div className="flex justify-center">
+      <div className="flex justify-center ">
         {isWhatTimer !== 0 &&
           (isWhatTimer === -1 ? <TimerCircle /> : <InfinityTimer />)}
       </div>
+      <TimerStart />
     </div>
   )
 }
