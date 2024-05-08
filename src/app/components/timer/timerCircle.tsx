@@ -17,8 +17,8 @@ function TimerCircle() {
           <div className="relative left-0 right-0  min-w-full w-[300px] h-[150px]">
             {/* 타이머가 움직임에 따라 내려가는 왼쪽 북커버 */}
             <motion.div
-              // animate={{ y: 10 }}
-              // transition={{ duration: 30, ease: 'linear' }}
+              animate={{ y: angle.angle === 45 ? 6 : 0 }}
+              transition={{ duration: 1 }}
               className="absolute  w-[150px] h-[20px]  rounded-md bg-yellow-800 bottom-[140px] z-20"
             ></motion.div>
             {/* 회전하는 직사각형 */}

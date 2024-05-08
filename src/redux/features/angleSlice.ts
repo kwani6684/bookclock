@@ -6,7 +6,7 @@ interface AngleType {
   angle: number
 }
 const initialState: AngleType = {
-  angle: 0,
+  angle: 180,
 }
 
 export const angle = createSlice({
