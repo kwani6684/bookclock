@@ -1,11 +1,23 @@
 import React, { useState } from 'react'
 import moment from 'moment'
+import { setOffTimer, setOnTimer } from '@/redux/features/onTimerSlice'
+import { AppDispatch } from '@/redux/store'
+import { useDispatch } from 'react-redux'
 
 const PlusTimer = () => {
-  const [time, setTime] = useState(moment.duration(0))
+  const [time, setTime] = useState(moment.duration(0)) // duration(시작시간 1000=1초)
   const [timeTick, setTimeTick] = useState<NodeJS.Timeout | null>(null)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const handleOffTimer = () => {
+    dispatch(setOffTimer())
+  }
+  const handleOnTimer = () => {
+    dispatch(setOnTimer())
+  }
   const startTimer = () => {
     const tick = () => setTime((prevTime) => prevTime.clone().add(1, 'seconds'))
+    handleOnTimer()
     const timerTick = setInterval(() => {
       tick()
     }, 1000)
@@ -20,6 +32,7 @@ const PlusTimer = () => {
 
   const stopTimer = () => {
     pauseTimer()
+    handleOffTimer()
     setTime(moment.duration(0))
   }
 
