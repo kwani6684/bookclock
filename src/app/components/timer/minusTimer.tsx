@@ -3,6 +3,8 @@ import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import { setOffTimer } from '@/redux/features/onTimerSlice'
+import { setCompleteTimer } from '@/redux/features/completeTimerSlice'
+import confetti from 'canvas-confetti'
 
 interface TimeType {
   timerTime: number // 초 단위로 제한 시간을 입력합니다. 예: 300 (5분)
@@ -10,11 +12,22 @@ interface TimeType {
 
 const MinusTimer = ({ timerTime }: TimeType) => {
   const [time, setTime] = useState(moment.duration(timerTime, 'seconds'))
+  // const isCompleteTimer = useSelector(
+  //   (state: RootState) => state.completeTimerReducer,
+  // )
   const isOnTimer = useSelector((state: RootState) => state.onTimerReducer)
   const dispatch = useDispatch<AppDispatch>()
 
   const handleOffTimer = () => {
     dispatch(setOffTimer())
+  }
+  const handleCompleteTimer = () => {
+    dispatch(setCompleteTimer())
+    confetti({
+      particleCount: 100, // 파티클 개수
+      spread: 70, // 퍼지는 각도
+      origin: { y: 0.6 }, // 시작 위치 조정
+    })
   }
   useEffect(() => {
     let timerTick: NodeJS.Timeout | null = null
@@ -27,7 +40,7 @@ const MinusTimer = ({ timerTime }: TimeType) => {
           if (newTime.asSeconds() <= 0) {
             clearInterval(timerTick!)
             // setIsActive(false) //타이머 끄는 함수
-            handleOffTimer()
+            handleCompleteTimer()
           }
           return newTime
         })
@@ -50,6 +63,11 @@ const MinusTimer = ({ timerTime }: TimeType) => {
 
   const stopTimer = () => {
     handleOffTimer()
+    confetti({
+      particleCount: 100, // 파티클 개수
+      spread: 70, // 퍼지는 각도
+      origin: { y: 0.6 }, // 시작 위치 조정
+    })
     setTime(moment.duration(timerTime, 'seconds')) // 정지 시 초기 설정 시간으로 리셋합니다.
   }
 
