@@ -17,7 +17,14 @@ function TimerCircle() {
           <div className="relative left-0 right-0  min-w-full w-[300px] h-[150px]">
             {/* 타이머가 움직임에 따라 내려가는 왼쪽 북커버 */}
             <motion.div
-              animate={{ y: angle.angle === 45 ? 6 : 0 }}
+              animate={{
+                y: angle.angle === 45 ? 6 : 0,
+                scaleX: angle.angle === 45 ? 1.01 : 1,
+              }}
+              style={{
+                originX: 0,
+                originY: 0,
+              }}
               transition={{ duration: 1 }}
               className="absolute  w-[150px] h-[20px]  rounded-md bg-yellow-800 bottom-[140px] z-20"
             ></motion.div>
@@ -37,19 +44,24 @@ function TimerCircle() {
               {/* 타이머를 나타내는 반원 */}
               <motion.div
                 initial={{ scale: 0.9 }}
-                className="absolute w-[300px] h-[300px] rounded-full bg-red-500 bottom-0"
+                className="absolute w-[300px] h-[300px] rounded-full bg-amber-100 bottom-0"
               ></motion.div>
               {/* 반원에 붙어있는 오른쪾 북커버 */}
               <div className="absolute  w-[150px] h-[20px]  rounded-md bg-yellow-800 bottom-[140px]"></div>
             </motion.div>
-            {/* 배경색과 동일한 반원 */}
+            {/* 배경색과 동일한 직사각형 */}
             <div className="absolute  top-0 w-[300px] h-[150px] overflow-hidden inline-block">
-              <div className="absolute  w-[300px] h-[150px]  bg-blue-500 bottom-0 z-30"></div>
+              <motion.div
+                animate={{
+                  y: angle.angle === 45 ? 3 : 0,
+                }}
+                transition={{ duration: 1 }}
+                className="absolute  w-[300px] h-[150px]  bg-green-400 bottom-0 z-30"
+              ></motion.div>
             </div>
           </div>
         </div>
       </div>
-      {/* 15m, 30m, 1H 버튼 */}
     </div>
   )
 }
