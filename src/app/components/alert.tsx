@@ -4,7 +4,7 @@ import React from 'react'
 interface AlertType {
   message: string
   onClose: () => void
-  active?: () => Promise<void>
+  active?: () => Promise<void> | void
   isActive?: boolean
 }
 function CustomAlert({ message, onClose, isActive, active }: AlertType) {
