@@ -5,9 +5,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
+import MinusTimer from './minusTimer'
 
 function TimerCircle() {
   const angle = useSelector((state: RootState) => state.angleReducer)
+  const isOnTimer = useSelector((state: RootState) => state.onTimerReducer)
 
   return (
     <div className="flex-col">
@@ -33,8 +35,8 @@ function TimerCircle() {
               initial={{
                 rotate: 0,
               }}
-              animate={{ rotate: angle.angle }}
-              transition={{ duration: 1 }}
+              animate={{ rotate: isOnTimer ? 0 : angle.angle }} // 타이머 작동 중 애니메이션
+              transition={{ duration: isOnTimer ? angle.angle * 20 : 1 }}
               style={{
                 originX: 0.5,
                 originY: 0,
@@ -56,8 +58,13 @@ function TimerCircle() {
                   y: angle.angle === 45 ? 3 : 0,
                 }}
                 transition={{ duration: 1 }}
-                className="absolute  w-[300px] h-[150px]  bg-green-400 bottom-0 z-30"
-              ></motion.div>
+                className="absolute flex items-center
+                justify-center w-[300px] h-[150px]  bg-green-400 bottom-0 z-30"
+              >
+                <div className="text-center">
+                  <MinusTimer timerTime={angle.angle * 20} />
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
