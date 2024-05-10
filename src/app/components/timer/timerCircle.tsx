@@ -59,7 +59,7 @@ function TimerCircle() {
                 }}
                 transition={{ duration: 1 }}
                 className="absolute flex items-center
-                justify-center w-[300px] h-[150px]  bg-green-400 bottom-0 z-30"
+                justify-center w-[300px] h-[150px] bg-green-400 bottom-0 z-30"
               >
                 <div className="text-center">
                   <MinusTimer timerTime={angle.angle * 20} />
