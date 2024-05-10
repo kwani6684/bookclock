@@ -5,9 +5,16 @@ interface AlertType {
   message: string
   onClose: () => void
   active?: () => Promise<void> | void
+  yPosition?: number
   isActive?: boolean
 }
-function CustomAlert({ message, onClose, isActive, active }: AlertType) {
+function CustomAlert({
+  message,
+  onClose,
+  isActive,
+  yPosition,
+  active,
+}: AlertType) {
   const onActive = async () => {
     if (isActive && active) {
       await active() // Correctly call the active function if it's provided and isActive is true
@@ -17,7 +24,7 @@ function CustomAlert({ message, onClose, isActive, active }: AlertType) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -100 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: yPosition || 0 }}
       className="fixed inset-0 flex items-center justify-center z-50"
     >
       <div className="flex flex-col p-6 pb-4 bg-white rounded-3xl justify-center overflow-hidden shadow-md max-w-sm w-[250px] sm:mx-[10vw]">
