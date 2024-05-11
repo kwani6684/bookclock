@@ -14,6 +14,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@types/moment": "^2.13.0",
+    "axios": "^1.6.8",
     "canvas-confetti": "^1.9.3",
     "framer-motion": "^11.1.7",
     "moment": "^2.30.1",
