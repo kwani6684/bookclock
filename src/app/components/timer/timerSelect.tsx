@@ -19,8 +19,9 @@ const TimerSelect = () => {
   }
 
   return (
-    <div className="grid px-4 gap-x-2 py-10 grid-cols-4">
-      <div className="flex col-span-4 h-[200px]  gap-2">
+    <div className="grid px-4 gap-x-2 py-2 grid-cols-4">
+      <div className="col-span-4">Step.2 타이머를 설정해주세요</div>
+      <div className="flex py-4 col-span-4 h-[100px]  gap-2">
         <motion.div
           onClick={handleMinus}
           initial={{ width: '100%' }}
@@ -31,7 +32,7 @@ const TimerSelect = () => {
           onMouseLeave={() => setMinusHovered(false)} // 마우스 벗어날 때 호버 상태 비활성화
           className="flex justify-center items-center bg-red-300 rounded-lg col-span-2"
         >
-          줄어드는 시간
+          시간 선택
         </motion.div>
         <motion.div
           onClick={handlePlus}
@@ -43,7 +44,7 @@ const TimerSelect = () => {
           style={{ originX: 1 }} // 확장의 기준점을 오른쪽으로 설정
           className="flex justify-center items-center bg-blue-300 rounded-lg col-span-2"
         >
-          늘어나는 시간
+          시간 미지정
         </motion.div>
       </div>
     </div>

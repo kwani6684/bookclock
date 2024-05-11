@@ -46,7 +46,7 @@ const TimerStart = () => {
         />
       )}
 
-      <div className="flex-col pt-6 max-h-[80px]">
+      <div className="flex-col bottom-[200px] max-h-[80px]">
         <AnimatePresence>
           {!showInput && (
             <motion.div
@@ -55,7 +55,7 @@ const TimerStart = () => {
               //   exit={{ opacity: 0, x: -100 }}
               className="flex overflow-x-hidden"
             >
-              <div className="flex justify-center px-1 z-30 ">
+              <div className="flex justify-center px-1 z-50 ">
                 {[3, 90, 180].map((selectedAngle, i) => (
                   <button
                     key={i}

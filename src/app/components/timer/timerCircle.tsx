@@ -52,7 +52,7 @@ function TimerCircle() {
               <div className="absolute  w-[150px] h-[20px]  rounded-md bg-yellow-800 bottom-[140px]"></div>
             </motion.div>
             {/* 배경색과 동일한 직사각형 */}
-            <div className="absolute  top-0 w-[300px] h-[150px] overflow-hidden inline-block">
+            <div className="absolute  top-0 w-[300px] h-[150px] overflow-hidden  inline-block">
               <motion.div
                 animate={{
                   y: angle.angle === 45 ? 3 : 0,
@@ -61,7 +61,7 @@ function TimerCircle() {
                 className="absolute flex items-center
                 justify-center w-[300px] h-[150px] bg-green-400 bottom-0 z-30"
               >
-                <div className="text-center">
+                <div className="text-center z-40">
                   <MinusTimer timerTime={angle.angle * 20} />
                 </div>
               </motion.div>
