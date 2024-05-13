@@ -1,3 +1,4 @@
+import ReduxProvider from '@/redux/provider'
 import NavBar from './components/navBar'
 import './globals.css'
 
@@ -14,10 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex justify-center bg-black overflow-y-auto h-[100vh] ">
+        <div className="flex justify-center bg-black overflow-y-auto h-screen ">
           <div className="justify-center w-[350px] bg-emerald-50 overflow-y-auto hide-scrollbar sm:w-full">
-            <NavBar />
-            {children}
+            <ReduxProvider>
+              <NavBar />
+              {children}
+            </ReduxProvider>
           </div>
         </div>
       </body>
