@@ -19,7 +19,7 @@ const TimerSelect = () => {
   }
 
   return (
-    <div className="grid px-4 gap-x-2 py-2 grid-cols-4">
+    <div className="grid  gap-x-2 py-2 grid-cols-4">
       <div className="col-span-4">Step.2 타이머를 설정해주세요</div>
       <div className="flex py-4 col-span-4 h-[100px]  gap-2">
         <motion.div
