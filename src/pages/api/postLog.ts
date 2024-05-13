@@ -11,7 +11,7 @@ export default async function showDate(
   if (request.method === 'POST') {
     try {
       const data = {
-        time: request.body.time,
+        ...request.body,
       }
       await db.collection('logs').insertOne(data)
     } catch (error) {}
