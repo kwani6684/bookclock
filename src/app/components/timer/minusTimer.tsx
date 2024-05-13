@@ -38,7 +38,9 @@ const MinusTimer = ({ timerTime }: TimeType) => {
           const newTime = moment.duration(prevTime.asMilliseconds() - 1000)
           if (newTime.asSeconds() <= 0) {
             clearInterval(timerTick!)
+            handleOffTimer()
             handleCompleteTimer()
+            dispatch(setReadTime(`${timerTime / 60}분`))
           }
           return newTime
         })
