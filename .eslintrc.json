@@ -16,8 +16,10 @@
     "node_modules/",
     "src/lib/db/database.ts",
     "tailwind.config.js",
+    "public/workbox-e43f5367.js",
     "postcss.config.js",
-    "next.config.mjs",
+    "next.config.js",
+    "public/sw.js",
     "global.d.ts",
     "src/pages/api/"
   ], // eslint 미적용될 폴더나 파일 명시
