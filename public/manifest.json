@@ -1,20 +1,14 @@
 {
-    "name": "PWA App",
-    "short_name": "App",
+    "name": "책깍책깍",
+    "short_name": "bookClock",
     "icons": [
       {
-        "src": "/appIcon/bookClock128",
-        "sizes": "128x128",
-        "type": "image/png",
-        "purpose": "any maskable"
-      },
-      {
-        "src": "/appIcon/bookClock256",
+        "src": "/appIcon/bookClock256.png",
         "sizes": "256x256",
         "type": "image/png"
       },
       {
-        "src": "/appIcon/bookClock512",
+        "src": "/appIcon/bookClock512.png",
         "sizes": "512x512",
         "type": "image/png"
       }
