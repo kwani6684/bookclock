@@ -3,6 +3,7 @@ import timerReducer from './features/timerSlice'
 import angleReducer from './features/angleSlice'
 import onTimerReducer from './features/onTimerSlice'
 import bookReducer from './features/bookSlice'
+import LogReducer from './features/logSlice'
 import completeTimerReducer from './features/completeTimerSlice'
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     onTimerReducer,
     completeTimerReducer,
     bookReducer,
+    LogReducer,
   },
 })
 
