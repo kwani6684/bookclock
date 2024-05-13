@@ -5,12 +5,11 @@ import { setAngle } from '@/redux/features/angleSlice'
 import { RootState } from '@/redux/store'
 import { setOnTimer } from '@/redux/features/onTimerSlice'
 import CustomAlert from '../alert'
-import StartPageInput from '../log/startPageInput'
 
 const TimerStart = () => {
   const dispatch = useDispatch()
   const angle = useSelector((state: RootState) => state.angleReducer)
-  const [showInput, setShowInput] = useState(false)
+  const [showInput] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
 
   const handleAngle = (a: number) => {
@@ -25,14 +24,7 @@ const TimerStart = () => {
   }
 
   const handleNext = () => {
-    if (showInput) {
-      setShowAlert(true)
-    } else {
-      setShowInput(true)
-    }
-  }
-  const handlePrev = () => {
-    setShowInput(false)
+    setShowAlert(true)
   }
 
   return (
@@ -69,23 +61,10 @@ const TimerStart = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        {showInput && (
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, type: 'spring' }}
-            // transition={{ delay: 0.5 }}
-          >
-            <StartPageInput />
-          </motion.div>
-        )}
       </div>
-      <div className={`flex ${showInput ? `justify-between` : `justify-end`}`}>
-        {showInput && (
-          <div className="flex pt-6 justify-start">
-            <button onClick={handlePrev}>이전</button>
-          </div>
-        )}
+      <div
+        className={`flex z-50 ${showInput ? `justify-between` : `justify-end`}`}
+      >
         <div className="flex pt-6 justify-end">
           <button onClick={handleNext}>다음</button>
         </div>

@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '@/redux/store'
 import { setOffTimer } from '@/redux/features/onTimerSlice'
 import { setCompleteTimer } from '@/redux/features/completeTimerSlice'
 import confetti from 'canvas-confetti'
+import { setReadTime } from '@/redux/features/logSlice'
 
 interface TimeType {
   timerTime: number // 초 단위로 제한 시간을 입력합니다. 예: 300 (5분)
@@ -12,10 +13,8 @@ interface TimeType {
 
 const MinusTimer = ({ timerTime }: TimeType) => {
   const [time, setTime] = useState(moment.duration(timerTime, 'seconds'))
-  // const isCompleteTimer = useSelector(
-  //   (state: RootState) => state.completeTimerReducer,
-  // )
   const isOnTimer = useSelector((state: RootState) => state.onTimerReducer)
+
   const dispatch = useDispatch<AppDispatch>()
 
   const handleOffTimer = () => {
@@ -39,7 +38,6 @@ const MinusTimer = ({ timerTime }: TimeType) => {
           const newTime = moment.duration(prevTime.asMilliseconds() - 1000)
           if (newTime.asSeconds() <= 0) {
             clearInterval(timerTick!)
-            // setIsActive(false) //타이머 끄는 함수
             handleCompleteTimer()
           }
           return newTime
@@ -52,18 +50,16 @@ const MinusTimer = ({ timerTime }: TimeType) => {
         clearInterval(timerTick)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnTimer])
   useEffect(() => {
     setTime(moment.duration(timerTime, 'seconds'))
   }, [timerTime])
 
-  //   const pauseTimer = () => {
-  //     setIsActive(false)
-  //   }
-
   const stopTimer = () => {
     handleOffTimer()
     handleCompleteTimer()
+    dispatch(setReadTime(`${timerTime / 60}분`))
     setTime(moment.duration(timerTime, 'seconds')) // 정지 시 초기 설정 시간으로 리셋합니다.
   }
 
@@ -79,9 +75,6 @@ const MinusTimer = ({ timerTime }: TimeType) => {
         </div>
       </div>
       <div>
-        {/* <button className="main-button-container mx-1" onClick={pauseTimer}>
-          일시정지
-        </button> */}
         <button className="main-button-container mx-1" onClick={stopTimer}>
           정지
         </button>

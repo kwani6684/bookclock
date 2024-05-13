@@ -5,43 +5,66 @@
 
 'use client'
 
+import BottomSheet from '@/app/components/bottomSheet'
+import EndPageInput from '@/app/components/log/EndPageInput'
 import BookSearchInput from '@/app/components/log/bookSearchInput'
 import PlusTimer from '@/app/components/timer/plusTimer'
 import TimerCircle from '@/app/components/timer/timerCircle'
 import TimerSelect from '@/app/components/timer/timerSelect'
 import TimerStart from '@/app/components/timer/timerStart'
-import { RootState } from '@/redux/store'
+import { setUnCompleteTimer } from '@/redux/features/completeTimerSlice'
+import { setFinished, setMemo } from '@/redux/features/logSlice'
+import { AppDispatch, RootState } from '@/redux/store'
+import { Checkbox } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { ChangeEvent, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Timer = () => {
+  const session = useSession()
   const controls = useAnimation()
   const isWhatTimer = useSelector((state: RootState) => state.timerReducer)
   const isOnTimer = useSelector((state: RootState) => state.onTimerReducer)
+  const log = useSelector((state: RootState) => state.LogReducer)
   const isCompleteTimer = useSelector(
     (state: RootState) => state.completeTimerReducer,
   )
   const bookInfo = useSelector((state: RootState) => state.bookReducer)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const toggleBottomSheet = () => {
+    dispatch(setUnCompleteTimer())
+  }
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+    dispatch(setFinished(isChecked))
+  }
+
+  // textarea의 값이 변경될 때 호출될 이벤트 핸들러 함수입니다.
+  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = event.target.value
+    dispatch(setMemo(newValue))
+  }
 
   useEffect(() => {
     // isOnTimer가 true일 경우 항상 scale이 커져 있어야 합니다.
     if (isOnTimer) {
       controls.start({
         scale: 1.2,
-        y: 50,
+        y: 30,
         transition: { duration: 0.5, type: 'spring' },
       })
 
       // 30초마다 튀는 애니메이션 실행
       const interval = setInterval(async () => {
         await controls.start({
-          y: 30, // 조금 위로 튀어오르게
+          y: 10, // 조금 위로 튀어오르게
           transition: { duration: 0.6 },
         })
         await controls.start({
-          y: 50, // 원위치
+          y: 30, // 원위치
           transition: { duration: 1.5, type: 'spring' },
         })
       }, 10000)
@@ -51,23 +74,72 @@ const Timer = () => {
   }, [isOnTimer, controls])
 
   return (
-    <div className="relative h-full">
+    <div className={`relative h-[${100 % -40}px] `}>
       {isCompleteTimer && (
         <motion.div
           className="absolute w-full flex justify-center bottom-0 z-30"
-          initial={{ y: 0, opacity: 0 }}
+          initial={{ opacity: 0 }}
           animate={{
             opacity: isCompleteTimer ? 1 : 0,
-            y: isCompleteTimer ? -200 : 0,
           }}
-          transition={{ delay: 0.3, duration: 0.5, type: 'spring' }}
+          transition={{ delay: 0.3, duration: 1, type: 'spring' }}
         >
-          <div className="flex-col justify-center">
-            <div className="flex justify-center pb-4">독서를 끝마쳤어요</div>
-            <div className="flex gap-x-4 justify-center">
-              <button className="push-button bg-gray-400">다음에 하기</button>
-              <button
-                className="push-button bg-[#007AFF]"
+          <div className="flex flex-col items-center justify-center">
+            <BottomSheet onClose={toggleBottomSheet}>
+              <div className="flex flex-col gap-y-2 h-[50vh] p-4 ">
+                <h2 className="text-xl font-bold">독서를 마쳤어요🎉</h2>
+                <p className="text-sm">오늘의 독서를 기록해보세요</p>
+                <div className="flex flex-col gap-y-1 items-center justify-center">
+                  <div>독서시간</div>
+                  <div className="text-3xl font-bold pb-2">{log.readTime}</div>
+                  <div className="flex items-center px-2 justify-center gap-x-4 pt-3 text-sm border-t-2 ">
+                    <EndPageInput />
+                    <div>또는</div>
+                    <div>
+                      <div className="flex justify-center">
+                        책을 다 읽으셨나요?
+                      </div>
+                      <div className="flex justify-center">
+                        <Checkbox
+                          onChange={handleCheckboxChange}
+                          className="p-1"
+                        ></Checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-y-1">
+                  <h3 className="font-semibold">메모</h3>
+                  {/* 텍스트에리아 */}
+                  <textarea
+                    className="w-full p-2 border rounded-md"
+                    placeholder="여기에 메모를 입력하세요..." // 리덕스 스토어의 memo 상태를 value로 설정합니다.
+                    onChange={handleTextareaChange} // 사용자 입력을 처리하기 위해 onChange 이벤트에 핸들러 함수를 연결합니다.
+                  ></textarea>
+                </div>
+                <button
+                  onClick={() => {
+                    fetch(`/api/postLog`, {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        writer: session.data?.user?.name,
+                        date: new Date().toISOString(),
+                        ...log,
+                      }),
+                    }).then((response) => {
+                      if (response.ok) {
+                        // logs 로 이동하는 코드
+                      }
+                    })
+                  }}
+                  className="flex py-2 justify-center w-full push-button bg-blue-200"
+                >
+                  저장
+                </button>
+              </div>
+            </BottomSheet>
+          </div>
+          {/* 
                 onClick={() => {
                   fetch(`/api/postLog`, {
                     method: 'POST',
@@ -82,10 +154,7 @@ const Timer = () => {
                   })
                 }}
               >
-                기록하기
-              </button>
-            </div>
-          </div>
+               */}
         </motion.div>
       )}
       <div className=" flex-col pt-2 px-3 ">
@@ -159,7 +228,7 @@ const Timer = () => {
             <div>
               <motion.div
                 animate={{
-                  y: isOnTimer || isCompleteTimer ? -50 : 0,
+                  y: isOnTimer || isCompleteTimer ? -90 : 0,
                 }}
                 transition={{ delay: 0.3, duration: 0.5, type: 'spring' }}
               >
@@ -181,7 +250,7 @@ const Timer = () => {
           ) : (
             <motion.div
               animate={{
-                y: isOnTimer ? -50 : 0,
+                y: isOnTimer || isCompleteTimer ? -90 : 0,
               }}
               transition={{ delay: 0.3, duration: 0.5, type: 'spring' }}
             >
