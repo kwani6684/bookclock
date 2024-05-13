@@ -14,8 +14,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex justify-center bg-black h-[100vh]">
-          <div className="justify-center w-[350px] bg-green-400  sm:w-full">
+        <div className="flex justify-center bg-black overflow-y-auto h-[100vh] ">
+          <div className="justify-center w-[350px] bg-emerald-50 overflow-y-auto hide-scrollbar sm:w-full">
             <NavBar />
             {children}
           </div>

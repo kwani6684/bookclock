@@ -63,11 +63,7 @@ const MinusTimer = ({ timerTime }: TimeType) => {
 
   const stopTimer = () => {
     handleOffTimer()
-    confetti({
-      particleCount: 100, // 파티클 개수
-      spread: 70, // 퍼지는 각도
-      origin: { y: 0.6 }, // 시작 위치 조정
-    })
+    handleCompleteTimer()
     setTime(moment.duration(timerTime, 'seconds')) // 정지 시 초기 설정 시간으로 리셋합니다.
   }
 

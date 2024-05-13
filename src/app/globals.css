@@ -4,7 +4,20 @@
 
 @layer components{
     .main-button-container {
-        @apply border-4 border-black bg-slate-300 rounded-lg px-6 py-3
+        @apply border-4 border-black bg-slate-300 rounded-lg px-6 py-3 hover:bg-slate-400
       }
+    .push-button{
+      @apply rounded-[5px] py-[3px] px-[7px] 
+    }
 }
 
+@layer utilities {
+  .hide-scrollbar {
+    @apply overflow-auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
