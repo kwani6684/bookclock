@@ -3,12 +3,23 @@ import moment from 'moment'
 import { motion } from 'framer-motion'
 
 import { setOffTimer, setOnTimer } from '@/redux/features/onTimerSlice'
+import { setReadTime } from '@/redux/features/logSlice'
 import { setCompleteTimer } from '@/redux/features/completeTimerSlice'
 import confetti from 'canvas-confetti'
-import { AppDispatch } from '@/redux/store'
-import { useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
 import CustomAlert from '../alert'
-import StartPageInput from '../log/startPageInput'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Path = (props: any) => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="3"
+    stroke="hsl(0, 0%, 18%)"
+    strokeLinecap="round"
+    {...props}
+  />
+)
 
 const PlusTimer = () => {
   const [time, setTime] = useState(moment.duration(0)) // duration(시작시간 1000=1초)
@@ -16,12 +27,22 @@ const PlusTimer = () => {
   const dispatch = useDispatch<AppDispatch>()
   const [showAlert, setShowAlert] = useState(false)
   const [showCompleteAlert, setShowCompleteAlert] = useState(false)
+  const isOnTimer = useSelector((state: RootState) => state.onTimerReducer)
 
-  const [showInput, setShowInput] = useState(true)
   const [isPause, setIsPause] = useState(true)
   const handleOffTimer = () => {
     dispatch(setOffTimer())
   }
+  const getTimeString = () => {
+    if (time.minutes() > 0) {
+      return `${time.minutes()}분 ${time.seconds()}초`
+    }
+    return `${time.seconds()}초`
+  }
+  const handleReadTime = () => {
+    dispatch(setReadTime(getTimeString()))
+  }
+
   const handleCompleteTimer = () => {
     dispatch(setCompleteTimer())
     handleOffTimer()
@@ -32,18 +53,7 @@ const PlusTimer = () => {
       origin: { y: 0.6 }, // 시작 위치 조정
     })
   }
-  const handleAlert = () => {
-    setShowAlert(true)
-  }
-  const closeAlert = () => {
-    setShowAlert(false)
-  }
-  const closeCompleteAlert = () => {
-    setShowCompleteAlert(false)
-  }
-
   const handleOnTimer = () => {
-    setShowInput(false)
     dispatch(setOnTimer())
   }
   const startTimer = () => {
@@ -54,7 +64,6 @@ const PlusTimer = () => {
     }, 1000)
     setTimeTick(timerTick)
   }
-
   const pauseTimer = () => {
     if (isPause) {
       if (timeTick) {
@@ -66,13 +75,25 @@ const PlusTimer = () => {
       setIsPause(true)
     }
   }
+  const handleAlert = () => {
+    setShowAlert(true)
+  }
+
+  const closeAlert = () => {
+    setShowAlert(false)
+    if (isPause) {
+      pauseTimer()
+    }
+  }
+  const closeCompleteAlert = () => {
+    setShowCompleteAlert(false)
+  }
 
   const stopTimer = () => {
-    setIsPause(true)
     pauseTimer()
     setShowCompleteAlert(true)
-    // setShowInput(true)
-    // setTime(moment.duration(0))
+    handleReadTime()
+    console.log(time.seconds())
   }
 
   return (
@@ -87,42 +108,62 @@ const PlusTimer = () => {
       )}
 
       <div className="flex justify-center text-6xl">
-        {moment(time.asSeconds(), 's').format('HH:mm:ss')}
+        {`${Math.floor(time.asSeconds() / 60)
+          .toString()
+          .padStart(2, '0')}:${Math.floor(time.asSeconds() % 60)
+          .toString()
+          .padStart(2, '0')}`}
       </div>
       <div>
-        <div className="flex justify-center">
+        <div
+          className={`flex  justify-center items-center pt-6 ${!isOnTimer && 'hidden'}`}
+        >
+          <motion.div initial={false} animate={isPause ? 'play' : 'pause'}>
+            <button
+              className="rounded-full bg-white p-2"
+              onClick={() => pauseTimer()}
+            >
+              <svg width="23" height="23" viewBox="0 0 23 23">
+                {/* 첫 번째 선 (일시정지 상태에서 보임) */}
+                <Path
+                  variants={{
+                    play: { d: 'M 7 2 L 7 21' },
+                    pause: { d: 'M 9 2 L 9 21' },
+                  }}
+                />
+                {/* 두 번째 선 (일시정지 상태에서 보임) */}
+                {/* 삼각형 (재생 상태에서 보임) */}
+                <Path
+                  fill="hsl(0, 0%, 18%)"
+                  variants={{
+                    play: { d: 'M 16 2 L 16 11.5' },
+                    pause: { d: 'M 18 11.5 L 9 2 ' },
+                  }}
+                  transition={{ duration: 0.1 }}
+                />
+                <Path
+                  fill="hsl(0, 0%, 18%)"
+                  variants={{
+                    play: { d: 'M 16 11.5 L 16 21' },
+                    pause: { d: 'M 18 11.5  L 9 21 ' },
+                  }}
+                  transition={{ duration: 0.1 }}
+                />
+              </svg>
+            </button>
+          </motion.div>
+        </div>
+        <div className="flex pt-10 justify-center">
           <button
-            className="main-button-container mx-1"
-            onClick={() => pauseTimer()}
+            className="main-button-container"
+            onClick={isOnTimer ? stopTimer : handleAlert}
           >
-            {isPause ? '=' : '시작'}
-          </button>
-          <button
-            className="main-button-container mx-1"
-            onClick={() => stopTimer()}
-          >
-            완료
+            {isOnTimer ? '저장' : '시작'}
           </button>
         </div>
-        {showInput && (
-          <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, type: 'spring' }}
-          >
-            <div className="flex justify-center">
-              <StartPageInput />
-            </div>
-            <div className="flex justify-center">
-              <button className="main-button-container" onClick={handleAlert}>
-                시작
-              </button>
-            </div>
-          </motion.div>
-        )}
       </div>
       {showCompleteAlert && (
-        <div className="mt-[200px]">
+        <div className="">
           <CustomAlert
             message={'독서를 기록할까요?'}
             onClose={closeCompleteAlert}
