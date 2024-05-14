@@ -10,7 +10,17 @@ module.exports = {
       md: { min: '820px', max: '1023px' },
       lg: { min: '1080px' },
     },
-    extend: {},
+    extend: {
+      colors: {
+        mainBg: '#FFFCE3',
+        semiBrown: '#9E725C',
+        smallBento: {
+          primary: '#B6C4B5',
+          selected: '#377F64',
+          hover: '#73A18A',
+        },
+      },
+    },
+    plugins: [],
   },
-  plugins: [],
 }

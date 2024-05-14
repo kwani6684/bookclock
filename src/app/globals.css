@@ -9,6 +9,9 @@
     .push-button{
       @apply rounded-[5px] py-[3px] px-[7px] 
     }
+    .default-button{
+      @apply rounded-[20px] bg-smallBento-primary hover:bg-smallBento-hover hover:text-white
+    }
 }
 
 @layer utilities {

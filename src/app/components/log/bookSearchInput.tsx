@@ -6,7 +6,7 @@ const BookSearchInput = () => {
       <div className="flex py-2 justify-center w-full">
         <Link
           href={'../logs/bookSearch'}
-          className=" w-full h-[150px] flex justify-center items-center text-black  px-4 border-dashed rounded-lg border-4 border-gray-400 hover:bg-gray-100 focus:outline-none"
+          className=" w-full h-[150px] flex text-[#758074] justify-center items-center  px-4 border-dashed rounded-lg border-4 border-smallBento-primary hover:bg-smallBento-primary hover:text-white hover:border-white "
         >
           <div>책을 검색해보세요</div>
         </Link>

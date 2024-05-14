@@ -1,23 +1,21 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 interface BentoType {
-  content: string
   color: string
   height?: number
   size?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: any
 }
 
 // 벤또 컴포넌트
-const Bento = ({ content, color, height, size }: BentoType) => {
+const Bento = ({ color, height, size, children }: BentoType) => {
   return (
-    <motion.div
-      whileHover={{ scale: 1.1 }}
-      className={`flex justify-center items-center ${color} h-[${height}px] rounded-lg col-span-${size}`}
+    <div
+      className={`flex flex-col p-5 ${color} h-[${height}px] rounded-[30px] col-span-${size}`}
     >
-      {content}
-    </motion.div>
+      {children}
+    </div>
   )
 }
 export default Bento

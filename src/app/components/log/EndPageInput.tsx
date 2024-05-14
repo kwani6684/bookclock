@@ -14,9 +14,11 @@ const EndPageInput = () => {
   return (
     <div className="flex  flex-col items-center justify-center ">
       <div className="flex flex-col items-center">
-        <span>어디까지 읽으셨나요?</span>
+        <span className="pb-2">어디까지 읽으셨나요?</span>
         <div className="relative">
-          <span className="absolute  pl-2 flex items-center justify-center h-full text-4xl text-gray-400">
+          <span
+            className={`absolute pl-2 flex items-center justify-center h-full text-4xl text-smallBento-selected`}
+          >
             P.
           </span>
           <input
@@ -24,7 +26,7 @@ const EndPageInput = () => {
             onChange={(e) => {
               handleEndPage(e)
             }}
-            className="input w-[100px] rounded-md pl-10 text-2xl appearance-none"
+            className="input w-[100px] rounded-md pl-10 text-2xl appearance-none focus:outline-none focus:ring-2 focus:ring-smallBento-selected"
           />
         </div>
       </div>

@@ -10,7 +10,7 @@ export const metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#FFFFFF',
+  themeColor: '#B6C4B5',
 }
 export default function RootLayout({
   children,
@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex justify-center bg-black overflow-y-auto h-screen ">
-          <div className="justify-center w-[350px] bg-emerald-50 overflow-y-auto hide-scrollbar sm:w-full">
+        <div className="flex justify-center bg-[#798B78] overflow-y-auto h-screen ">
+          <div className="justify-center w-[350px] bg-mainBg overflow-y-auto hide-scrollbar sm:w-full">
             <ReduxProvider>
               <NavBar />
               {children}

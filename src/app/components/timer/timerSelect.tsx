@@ -1,14 +1,16 @@
 'use client'
 
 import { isPlus, isMinus } from '@/redux/features/timerSlice'
-import { AppDispatch } from '@/redux/store'
-import { useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 
 const TimerSelect = () => {
   const [plusHovered, setPlusHovered] = useState(false)
   const [minusHovered, setMinusHovered] = useState(false)
+  const isWhatTimer = useSelector((state: RootState) => state.timerReducer)
+
   const dispatch = useDispatch<AppDispatch>()
 
   const handleMinus = () => {
@@ -30,7 +32,7 @@ const TimerSelect = () => {
           style={{ originX: 0 }} // 확장의 기준점을 왼쪽으로 설정
           onMouseEnter={() => setMinusHovered(true)} // 마우스 진입 시 호버 상태 활성화
           onMouseLeave={() => setMinusHovered(false)} // 마우스 벗어날 때 호버 상태 비활성화
-          className="flex justify-center items-center bg-red-300 rounded-lg col-span-2"
+          className={`flex justify-center items-center ${isWhatTimer >= 0 ? `bg-smallBento-primary` : 'bg-smallBento-selected hover:bg-smallBento-selected text-white'} default-button  rounded-[20px] col-span-2`}
         >
           시간 선택
         </motion.div>
@@ -42,7 +44,7 @@ const TimerSelect = () => {
           onMouseEnter={() => setPlusHovered(true)} // 마우스 진입 시 호버 상태 활성화
           onMouseLeave={() => setPlusHovered(false)} // 마우스 벗어날 때 호버 상태 비활성화
           style={{ originX: 1 }} // 확장의 기준점을 오른쪽으로 설정
-          className="flex justify-center items-center bg-blue-300 rounded-lg col-span-2"
+          className={`flex justify-center items-center ${isWhatTimer <= 0 ? `bg-smallBento-primary` : 'bg-smallBento-selected hover:bg-smallBento-selected text-white'} default-button  rounded-[20px] col-span-2`}
         >
           시간 미지정
         </motion.div>

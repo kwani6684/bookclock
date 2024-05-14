@@ -48,11 +48,11 @@ const TimerStart = () => {
               className="flex overflow-x-hidden"
             >
               <div className="flex justify-center px-1 z-50 ">
-                {[3, 90, 180].map((selectedAngle, i) => (
+                {[45, 90, 180].map((selectedAngle, i) => (
                   <button
                     key={i}
                     onClick={() => handleAngle(selectedAngle)}
-                    className={`main-button-container mx-1 ${angle.angle === selectedAngle ? 'bg-blue-400' : ''}`}
+                    className={`default-button px-6 py-4 mx-1 ${angle.angle === selectedAngle ? 'bg-smallBento-selected text-white' : ''}`}
                   >
                     {selectedAngle / 3}m
                   </button>

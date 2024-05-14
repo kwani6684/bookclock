@@ -34,7 +34,7 @@ function CustomAlert({
         <div className="flex justify-center pt-4">
           <button
             type="button"
-            className={`w-[50%] close text-[#E57C65] py-2 font-bold border-r-[0.5px] border-[#ACACAC] ${isActive ? '' : 'hidden'}`}
+            className={`w-[50%] close text-smallBento-selected py-2 font-bold border-r-[0.5px] border-[#ACACAC] ${isActive ? '' : 'hidden'}`}
             onClick={onClose}
           >
             취소
@@ -42,7 +42,7 @@ function CustomAlert({
 
           <button
             type="button"
-            className="w-[50%] text-[#E57C65] py-2 font-bold"
+            className="w-[50%] text-smallBento-selected py-2 font-bold"
             onClick={onActive}
           >
             확인

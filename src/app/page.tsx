@@ -1,24 +1,62 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { useDispatch } from 'react-redux'
+import { setAngle } from '@/redux/features/angleSlice'
 import Bento from './components/bento'
+import TimerCircle from './components/timer/timerCircle'
 
 export default function Home() {
+  const dispatch = useDispatch()
+  const handleMouseEnter = () => {
+    dispatch(setAngle(180))
+  }
+  const handleMouseLeave = () => {
+    dispatch(setAngle(0))
+  }
+
   return (
     <div className="flex-col justify-center">
-      <div className="flex justify-center">독서관리 타이머 앱</div>
       {/* 벤또 그리드 */}
-      <div className="w-full px-6 py-10 bg-amber-200">
-        <div className="grid gap-x-8 gap-y-8 w-full grid-cols-2">
+      <div className="w-full px-2 py-2">
+        <div className="grid gap-x-2 gap-y-2 w-full grid-cols-2">
           {/* 타이머 */}
           <Link className="col-span-2" href={'/timer'}>
-            <Bento content="독서 타이머" color="bg-pink-200" height={300} />
+            <Bento color="bg-semiBrown" height={300}>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                style={{
+                  originX: 0.5,
+                  originY: 0.5,
+                }}
+                className="font-black text-mainBg text-2xl"
+              >
+                독서 타이머
+              </motion.div>
+
+              <motion.div
+                initial={{ scale: 0.6 }}
+                whileHover={{ scale: 0.75 }}
+                style={{ originX: 0.5, originY: 0.2 }}
+                onHoverStart={handleMouseEnter}
+                onHoverEnd={handleMouseLeave}
+              >
+                <TimerCircle isMain={true} />
+              </motion.div>
+            </Bento>
           </Link>
           {/* 내 기록  */}
           <Link className="col-span-1" href={'/logs'}>
-            <Bento content="내 기록" color="bg-sky-200" height={150} />
+            <Bento color="bg-smallBento-primary" height={150}>
+              <div className="flex">기록</div>
+            </Bento>
           </Link>
           {/* 랭킹 */}
           <Link className="col-span-1" href={'/ranking'}>
-            <Bento content="랭킹" color="bg-emerald-200" height={150} />
+            <Bento color="bg-smallBento-primary" height={150}>
+              <div className="flex">기록</div>
+            </Bento>
           </Link>
         </div>
       </div>

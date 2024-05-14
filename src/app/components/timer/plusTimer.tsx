@@ -9,17 +9,9 @@ import confetti from 'canvas-confetti'
 import { AppDispatch, RootState } from '@/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomAlert from '../alert'
+import Path from '../path'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Path = (props: any) => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="3"
-    stroke="hsl(0, 0%, 18%)"
-    strokeLinecap="round"
-    {...props}
-  />
-)
 
 const PlusTimer = () => {
   const [time, setTime] = useState(moment.duration(0)) // duration(시작시간 1000=1초)
@@ -155,7 +147,7 @@ const PlusTimer = () => {
         </div>
         <div className="flex pt-10 justify-center">
           <button
-            className="main-button-container"
+            className="default-button px-6 py-3"
             onClick={isOnTimer ? stopTimer : handleAlert}
           >
             {isOnTimer ? '저장' : '시작'}

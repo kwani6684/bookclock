@@ -15,7 +15,7 @@ import TimerStart from '@/app/components/timer/timerStart'
 import { setUnCompleteTimer } from '@/redux/features/completeTimerSlice'
 import { setFinished, setMemo } from '@/redux/features/logSlice'
 import { AppDispatch, RootState } from '@/redux/store'
-import { Checkbox } from '@mui/material'
+import { Checkbox, checkboxClasses } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -74,7 +74,7 @@ const Timer = () => {
   }, [isOnTimer, controls])
 
   return (
-    <div className={`relative h-[${100 % -40}px] `}>
+    <div className={`relative h-[${100 % -60}px] `}>
       {isCompleteTimer && (
         <motion.div
           className="absolute w-full flex justify-center bottom-0 z-30"
@@ -103,6 +103,11 @@ const Timer = () => {
                         <Checkbox
                           onChange={handleCheckboxChange}
                           className="p-1"
+                          sx={{
+                            [`&, &.${checkboxClasses.checked}`]: {
+                              color: 'rgb(55,127,100)',
+                            },
+                          }}
                         ></Checkbox>
                       </div>
                     </div>
@@ -112,7 +117,7 @@ const Timer = () => {
                   <h3 className="font-semibold">메모</h3>
                   {/* 텍스트에리아 */}
                   <textarea
-                    className="w-full p-2 border rounded-md"
+                    className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-smallBento-selected"
                     placeholder="여기에 메모를 입력하세요..." // 리덕스 스토어의 memo 상태를 value로 설정합니다.
                     onChange={handleTextareaChange} // 사용자 입력을 처리하기 위해 onChange 이벤트에 핸들러 함수를 연결합니다.
                   ></textarea>
@@ -132,29 +137,13 @@ const Timer = () => {
                       }
                     })
                   }}
-                  className="flex py-2 justify-center w-full push-button bg-blue-200"
+                  className="flex py-2 justify-center w-full default-button"
                 >
                   저장
                 </button>
               </div>
             </BottomSheet>
           </div>
-          {/* 
-                onClick={() => {
-                  fetch(`/api/postLog`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      time: 1,
-                    }),
-                  }).then((response) => {
-                    if (response.ok) {
-                      console.log('yaho')
-                      // '/lists' 로 페이지 이동하는 코드
-                    }
-                  })
-                }}
-              >
-               */}
         </motion.div>
       )}
       <div className=" flex-col pt-2 px-3 ">
@@ -203,7 +192,7 @@ const Timer = () => {
               />
             </motion.div>
             <div
-              className={`w-full h-[150px] flex justify-center items-center text-black  px-4 border-dashed rounded-lg border-4 border-gray-400 hover:bg-gray-100 focus:outline-none ${(isOnTimer || isCompleteTimer) && 'hidden'}`}
+              className={`w-full h-[150px] flex justify-center items-center text-black px-4 border-dashed rounded-lg border-4 border-smallBento-primary hover:bg-gray-100 focus:outline-none ${(isOnTimer || isCompleteTimer) && 'hidden'}`}
             ></div>
           </div>
         ) : (

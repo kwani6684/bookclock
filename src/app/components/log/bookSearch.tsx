@@ -111,22 +111,22 @@ const BookSearch = () => {
               onSubmit(e)
             }
           }}
-          className="pl-10 w-[100%] h-[2.5rem] px-3 border border-black rounded-2xl bg-white"
+          className="pl-10 w-[100%] h-[2.5rem] px-3 border-2 border-smallBento-primary rounded-2xl bg-white focus:border-smallBento-selected focus:outline-none"
         />
       </div>
 
       {modalOpen && ( // 서버컴포넌트 활용 위해 modal route 방식 변경 필요
-        <div className="flex">
+        <div className="flex hide-scrollBar pt-4">
           <div
             className="w-[350px] inset-0 z-50 flex items-center justify-center"
             onClick={closeOnOverlayClick}
           >
             <div className="  sm:px-4 rounded-lg overflow-y-auto">
-              <div className="grid grid-cols-1 overflow-y-auto max-h-[70vh] mjustify-items-start scrollBar">
+              <div className="grid grid-cols-1 overflow-y-auto max-h-[70vh] justify-items-start hide-scrollBar">
                 {documents.map((d: any, i: number) => (
                   <div
                     key={i}
-                    className={`p-2 max-h-[30vh] block ${selectedBook && selectedBook.isbn === d.isbn ? 'rounded-[13px] border-4 border-[#E57c65]' : 'rounded-lg border-4 border-transparent'}`}
+                    className={`p-2 max-h-[30vh] block ${selectedBook && selectedBook.isbn === d.isbn ? 'rounded-[13px] border-4 border-smallBento-selected' : 'rounded-lg border-4 border-transparent'}`}
                   >
                     <div
                       className="flex align-center"
@@ -143,8 +143,6 @@ const BookSearch = () => {
                         className="rounded-2xl"
                       />
                       <div className="flex-col justify-between p-4 mt-2 sm:text-sm h-full">
-                        {' '}
-                        {/* h-full 또는 특정 높이 */}
                         <div className="flex font-black text-md">{d.title}</div>
                         <div>
                           <div className="font-semibold text-[#646464]">
@@ -161,33 +159,27 @@ const BookSearch = () => {
               </div>
 
               <div className="flex justify-between mt-4">
-                <button
-                  onClick={prevPage}
-                  className="px-4 py-2 bg-[#e57c65] text-white rounded"
-                >
+                <button onClick={prevPage} className="px-4 py-2 default-button">
                   이전
                 </button>
                 <span className="text-lg font-semibold">
                   {page}/{last}
                 </span>
-                <button
-                  onClick={nextPage}
-                  className="px-4 py-2 bg-[#e57c65]  text-white rounded"
-                >
+                <button onClick={nextPage} className="px-4 py-2 default-button">
                   다음
                 </button>
               </div>
               <div className="mt-4 text-center flex gap-4 justify-center">
                 <button
                   onClick={() => handleConfirmation(false)}
-                  className="px-4 py-2 bg-[#65AFE5] text-white rounded-full"
+                  className="px-4 py-2 default-button"
                 >
                   취소
                 </button>
                 <Link
                   href={'../../timer'}
                   onClick={() => handleConfirmation(true)}
-                  className="px-4 py-2 bg-[#e57c65]  text-white rounded-full"
+                  className="px-4 py-2 bg-[#BE4f31]  text-white rounded-full"
                 >
                   확인
                 </Link>
