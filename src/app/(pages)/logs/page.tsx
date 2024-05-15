@@ -8,7 +8,7 @@ const Logs = async () => {
   return (
     <div className="flex flex-col justify-center items-center px-2">
       <div className="default-button w-full text-center py-2 ">기록</div>
-      <div className="flex gap-x-4 grid-cols-2">
+      <div className="grid gap-x-4 grid-cols-2">
         {logsData.map((items: LogDataType, i: number) => (
           // eslint-disable-next-line no-underscore-dangle
           <Link key={i} href={`/logs/${items._id}`}>
