@@ -41,6 +41,7 @@ export default function Home() {
                 style={{ originX: 0.5, originY: 0.2 }}
                 onHoverStart={handleMouseEnter}
                 onHoverEnd={handleMouseLeave}
+                className="flex justify-center"
               >
                 <TimerCircle isMain={true} />
               </motion.div>
