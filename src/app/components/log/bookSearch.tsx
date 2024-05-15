@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/redux/store'
 import { setBookInfo } from '@/redux/features/bookSlice'
 import Link from 'next/link'
+import { setBook } from '@/redux/features/logSlice'
 import searchIcon from '../../../../public/icon/searchIcon.png'
 
 const BookSearch = () => {
@@ -77,6 +78,7 @@ const BookSearch = () => {
   const handleConfirmation = (confirmed: boolean) => {
     if (confirmed && selectedBook) {
       dispatch(setBookInfo(selectedBook))
+      dispatch(setBook(selectedBook))
     }
     setModalOpen(false)
   }
