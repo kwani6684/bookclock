@@ -38,7 +38,7 @@ const CustomModal = ({
   }
 
   const handleOutsideClick = () => {
-    handleClose()
+    setOpen(false)
   }
 
   const handleInsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -54,7 +54,7 @@ const CustomModal = ({
     >
       {/* 모달 슬라이드 애니메이션 수정 */}
 
-      <div className="flex justify-center align-center h-full outline-0">
+      <div className="flex justify-center align-center outline-0">
         <Paper
           elevation={2}
           sx={{
@@ -68,7 +68,7 @@ const CustomModal = ({
             maxHeight: '100%',
             overflowY: 'auto',
           }}
-          className={`h-[${modalheight}] sm:h-[100vh]`}
+          className={`h-[${modalheight}] `}
           onClick={handleInsideClick}
         >
           <Image
