@@ -3,7 +3,7 @@ import { BookType } from './bookType'
 
 export interface LogType {
   book: BookType
-  readTime: string
+  readTime: number
   endPage: string
   finished: boolean
   memo?: string

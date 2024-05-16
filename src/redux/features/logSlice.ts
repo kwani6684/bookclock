@@ -11,7 +11,7 @@ const initialState: LogType = {
     thumbnail: '',
     authors: '',
   }, // 적절한 초기값으로 설정해야 합니다.
-  readTime: '',
+  readTime: 0,
   endPage: '',
   finished: false,
   memo: undefined,
@@ -25,7 +25,7 @@ export const logSlice = createSlice({
     setEndPage: (state, action: PayloadAction<string>) => {
       state.endPage = action.payload
     },
-    setReadTime: (state, action: PayloadAction<string>) => {
+    setReadTime: (state, action: PayloadAction<number>) => {
       state.readTime = action.payload
     },
     // 독서 완료 여부를 설정합니다.
