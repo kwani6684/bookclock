@@ -4,7 +4,10 @@ import { useSession } from 'next-auth/react'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import navLogo from '../../../public/icon/nav-logo.png'
 
 const NavBar = () => {
   const session: any = useSession()
@@ -16,14 +19,23 @@ const NavBar = () => {
     <div className="flex items-center">
       <div className="relative flex items-center w-full h-[60px] px-3 justify-between text-2xl ">
         {path === '/' ? (
-          <div>로고</div>
+          <Image src={navLogo} width={50} height={50} alt="로고" />
         ) : (
-          <button onClick={() => router.back()}>뒤로가기</button>
+          <button className="flex justify-center" onClick={() => router.back()}>
+            <ArrowBackIosIcon />
+          </button>
         )}
         {session.data ? (
-          <div>{session.data.user.name}</div>
+          <div className="text-xl font-semibold text-smallBento-selected">
+            {session.data.user.name}
+          </div>
         ) : (
-          <Link href={'/login'}>로그인</Link>
+          <Link
+            className="text-xl text-smallBento-hover font-semibold hover:text-smallBento-selected"
+            href={'/login'}
+          >
+            로그인
+          </Link>
         )}
       </div>
     </div>
