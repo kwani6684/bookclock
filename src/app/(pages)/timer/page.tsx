@@ -148,8 +148,11 @@ const Timer = () => {
                   ></textarea>
                 </div>
                 <button
-                  onClick={handlePostLog}
-                  className="flex py-2 justify-center w-full default-button"
+                  onClick={
+                    log.finished || log.endPage ? handlePostLog : () => {}
+                  }
+                  className={` flex py-2 justify-center w-full default-button disabled:bg-slate-300 disabled:hover:text-black`}
+                  disabled={!(log.finished || log.endPage)}
                 >
                   저장
                 </button>
