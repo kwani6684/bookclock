@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import Modal from '@mui/material/Modal'
 import Paper from '@mui/material/Paper'
 import Image from 'next/image'
@@ -8,7 +9,7 @@ import closeIcon from '../../../public/icon/closeIcon.png'
 
 interface ModalType {
   isOpen: boolean
-  onClose?: () => void // 모달을 닫을 때 호출할 함수
+  onClose?: boolean // 모달을 닫을 때 호출할 함수
   children: React.ReactNode
   size: string
   modalheight?: string
@@ -24,7 +25,7 @@ const CustomModal = ({
   modalColor,
 }: ModalType) => {
   const [open, setOpen] = useState(false)
-
+  const router = useRouter()
   useEffect(() => {
     setOpen(isOpen)
   }, [isOpen])
@@ -32,7 +33,7 @@ const CustomModal = ({
   const handleClose = () => {
     setOpen(false)
     if (onClose) {
-      onClose()
+      router.back()
     }
   }
 
