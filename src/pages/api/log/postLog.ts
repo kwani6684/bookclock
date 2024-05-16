@@ -14,6 +14,7 @@ export default async function showDate(
         ...request.body,
       }
       await db.collection('logs').insertOne(data)
+      response.redirect(302, '/logs')
     } catch (error) {}
   }
 }

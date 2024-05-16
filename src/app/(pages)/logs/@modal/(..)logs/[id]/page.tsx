@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import CustomModal from '@/app/components/modal'
-import { getLogId } from '@/pages/api/getLog'
+import getLogId from '@/pages/api/log/getLogId'
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -10,9 +10,10 @@ const LogDetailPage = async ({
   params: { id: string }
 }) => {
   const data = await getLogId(id)
+
   return (
     <div>
-      <CustomModal isOpen={true} size={'350px'}>
+      <CustomModal isOpen={true} onClose={true} size={'350px'}>
         <div className="px-8 py-8">
           <div className="flex flex-col justify-center items-center">
             <img
@@ -38,7 +39,7 @@ const LogDetailPage = async ({
                 <div
                   className="h-[45vh] mx-auto text-[#999999] overflow-y-auto max-h-[45vh]"
                   dangerouslySetInnerHTML={{
-                    __html: data.memo.replace(/\n/g, '<br>'),
+                    __html: data.memo ? data.memo.replace(/\n/g, '<br>') : '',
                   }}
                 ></div>
               </div>
