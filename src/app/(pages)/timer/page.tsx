@@ -156,7 +156,7 @@ const Timer = () => {
           <div className="flex justify-between">
             <div> Step.1 책 제목을 입력해주세요</div>
             {bookInfo.bookInfo && (
-              <Link href={'../logs/bookSearch'}>다시 검색</Link>
+              <Link href={'/logs/bookSearch'}>다시 검색</Link>
             )}
           </div>
         )}
