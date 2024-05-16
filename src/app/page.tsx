@@ -32,7 +32,7 @@ export default function Home() {
               onHoverStart={handleMouseEnter}
               onHoverEnd={handleMouseLeave}
             >
-              <Bento color="bg-semiBrown" height={300}>
+              <Bento color=" relative bg-semiBrown" height={300}>
                 <motion.div
                   animate={play ? { scale: 1.2 } : { scale: 1 }}
                   transition={{ duration: 0.5 }}
@@ -54,6 +54,16 @@ export default function Home() {
                 >
                   <TimerCircle isMain={true} />
                 </motion.div>
+                <div className="flex absolute left-0 right-0 justify-center bottom-10">
+                  <motion.div
+                    initial={{ scale: 1 }}
+                    animate={play ? { scale: 1.2 } : { scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="font-semibold text-mainBg text-ㅣㅎ"
+                  >
+                    내 독서 시간을 기록해보세요
+                  </motion.div>
+                </div>
               </Bento>
             </motion.div>
           </Link>
@@ -61,7 +71,17 @@ export default function Home() {
           {/* 내 기록  */}
           <Link className="col-span-1" href={'/logs'}>
             <Bento color="bg-smallBento-primary" height={150}>
-              <div className="flex font-black text-mainBg text-xl">기록</div>
+              <motion.div
+                whileHover={{ scale: 1.2 }}
+                transition={{ duration: 0.5 }}
+                style={{
+                  originX: 0,
+                  originY: 0.5,
+                }}
+                className="font-black text-mainBg text-xl"
+              >
+                기록
+              </motion.div>
             </Bento>
           </Link>
           {/* 랭킹 */}
