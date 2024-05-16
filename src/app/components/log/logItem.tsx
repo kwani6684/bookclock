@@ -15,7 +15,7 @@ const LogItem = ({ data }: LogDataProps) => {
       <img
         src={data.book.thumbnail}
         alt="책 표지"
-        className="rounded-2xl h-full py-2"
+        className="rounded-[25px] h-full py-2"
       />
       <div className="absolute rounded-full bg-white bg-opacity-60  ml-1 mt-3 ">
         {data.finished ? (

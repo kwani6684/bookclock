@@ -5,12 +5,19 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDispatch } from 'react-redux'
 import { setAngle } from '@/redux/features/angleSlice'
+// import { useSession } from 'next-auth/react'
+import Image from 'next/image'
+
 import Bento from './components/bento'
 import TimerCircle from './components/timer/timerCircle'
+import bookLog from '../../public/icon/book-log.png'
 
 export default function Home() {
   const dispatch = useDispatch()
   const [play, setPlay] = useState(false)
+  const [smallBtnPlay, setSmallBtnPlay] = useState(false)
+  // const session = useSession()
+
   const handleMouseEnter = () => {
     dispatch(setAngle(180))
     setPlay(true)
@@ -18,6 +25,12 @@ export default function Home() {
   const handleMouseLeave = () => {
     dispatch(setAngle(0))
     setPlay(false)
+  }
+  const handleSmallMouseEnter = () => {
+    setSmallBtnPlay(true)
+  }
+  const handleSmallMouseLeave = () => {
+    setSmallBtnPlay(false)
   }
 
   return (
@@ -69,20 +82,33 @@ export default function Home() {
           </Link>
 
           {/* 내 기록  */}
+          {/* <Link className="col-span-1" href={session.data ? '/logs' : '/login'}> */}
           <Link className="col-span-1" href={'/logs'}>
-            <Bento color="bg-smallBento-primary" height={150}>
-              <motion.div
-                whileHover={{ scale: 1.2 }}
-                transition={{ duration: 0.5 }}
-                style={{
-                  originX: 0,
-                  originY: 0.5,
-                }}
-                className="font-black text-mainBg text-xl"
-              >
-                기록
-              </motion.div>
-            </Bento>
+            <motion.div
+              onHoverStart={handleSmallMouseEnter}
+              onHoverEnd={handleSmallMouseLeave}
+            >
+              <Bento color="bg-smallBento-primary" height={150}>
+                <motion.div
+                  animate={smallBtnPlay ? { scale: 1.2 } : { scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  style={{
+                    originX: 0,
+                    originY: 0.5,
+                  }}
+                  className="font-black text-mainBg text-xl"
+                >
+                  기록
+                </motion.div>
+                <motion.div
+                  className="flex justify-center pt-4"
+                  animate={smallBtnPlay ? { scale: 1.1 } : { scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Image src={bookLog} className="w-full" alt="logo" />
+                </motion.div>
+              </Bento>
+            </motion.div>
           </Link>
           {/* 랭킹 */}
           <Link className="col-span-1" href={'/ranking'}>
