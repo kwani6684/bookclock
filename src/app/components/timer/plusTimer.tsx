@@ -25,14 +25,9 @@ const PlusTimer = () => {
   const handleOffTimer = () => {
     dispatch(setOffTimer())
   }
-  const getTimeString = () => {
-    if (time.minutes() > 0) {
-      return `${time.minutes()}분 ${time.seconds()}초`
-    }
-    return `${time.seconds()}초`
-  }
+
   const handleReadTime = () => {
-    dispatch(setReadTime(getTimeString()))
+    dispatch(setReadTime(time.seconds()))
   }
 
   const handleCompleteTimer = () => {

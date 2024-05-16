@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { setAngle } from '@/redux/features/angleSlice'
 import { RootState } from '@/redux/store'
@@ -7,6 +9,7 @@ import { setOnTimer } from '@/redux/features/onTimerSlice'
 import CustomAlert from '../alert'
 
 const TimerStart = () => {
+  const session = useSession()
   const dispatch = useDispatch()
   const angle = useSelector((state: RootState) => state.angleReducer)
   const [showInput] = useState(false)
@@ -26,17 +29,28 @@ const TimerStart = () => {
   const handleNext = () => {
     setShowAlert(true)
   }
+  const handleLogin = () => {
+    signIn('kakao')
+  }
 
   return (
     <div>
-      {showAlert && (
-        <CustomAlert
-          message={'독서를 시작할까요?'}
-          onClose={closeAlert}
-          isActive={true}
-          active={handleTimerStart}
-        />
-      )}
+      {showAlert &&
+        (session.data ? (
+          <CustomAlert
+            message={'독서를 시작할까요?'}
+            onClose={closeAlert}
+            isActive={true}
+            active={handleTimerStart}
+          />
+        ) : (
+          <CustomAlert
+            message={'먼저 로그인 해주세요'}
+            onClose={closeAlert}
+            isActive={true}
+            active={handleLogin}
+          ></CustomAlert>
+        ))}
 
       <div className="flex-col bottom-[200px] max-h-[80px]">
         <AnimatePresence>

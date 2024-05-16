@@ -19,11 +19,13 @@ import { Checkbox, checkboxClasses } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Timer = () => {
   const session = useSession()
+  const router = useRouter()
   const controls = useAnimation()
   const isWhatTimer = useSelector((state: RootState) => state.timerReducer)
   const isOnTimer = useSelector((state: RootState) => state.onTimerReducer)
@@ -42,6 +44,21 @@ const Timer = () => {
     dispatch(setFinished(isChecked))
   }
 
+  const handlePostLog = () => {
+    fetch(`/api/log/postLog`, {
+      method: 'POST',
+      body: JSON.stringify({
+        writer: session.data?.user?.name,
+        date: new Date().toISOString(),
+        ...log,
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        router.push('/logs')
+        toggleBottomSheet()
+      }
+    })
+  }
   // textarea의 값이 변경될 때 호출될 이벤트 핸들러 함수입니다.
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value
@@ -73,6 +90,12 @@ const Timer = () => {
     }
   }, [isOnTimer, controls])
 
+  const getTimeString = () => {
+    if (log.readTime >= 60) {
+      return `${log.readTime / 60}분 ${log.readTime % 60}초`
+    }
+    return `${log.readTime}초`
+  }
   return (
     <div className={`relative h-[${100 % -60}px] `}>
       {isCompleteTimer && (
@@ -91,7 +114,9 @@ const Timer = () => {
                 <p className="text-sm">오늘의 독서를 기록해보세요</p>
                 <div className="flex flex-col gap-y-1 items-center justify-center">
                   <div>독서시간</div>
-                  <div className="text-3xl font-bold pb-2">{log.readTime}</div>
+                  <div className="text-3xl font-bold pb-2">
+                    {getTimeString()}
+                  </div>
                   <div className="flex items-center px-2 justify-center gap-x-4 pt-3 text-sm border-t-2 ">
                     <EndPageInput />
                     <div>또는</div>
@@ -123,20 +148,7 @@ const Timer = () => {
                   ></textarea>
                 </div>
                 <button
-                  onClick={() => {
-                    fetch(`/api/postLog`, {
-                      method: 'POST',
-                      body: JSON.stringify({
-                        writer: session.data?.user?.name,
-                        date: new Date().toISOString(),
-                        ...log,
-                      }),
-                    }).then((response) => {
-                      if (response.ok) {
-                        // logs 로 이동하는 코드
-                      }
-                    })
-                  }}
+                  onClick={handlePostLog}
                   className="flex py-2 justify-center w-full default-button"
                 >
                   저장
@@ -154,7 +166,7 @@ const Timer = () => {
         )}
         {!isOnTimer && !isCompleteTimer && (
           <div className="flex justify-between">
-            <div> Step.1 책 제목을 입력해주세요</div>
+            <div> Step.1 읽을 책을 선택해주세요.</div>
             {bookInfo.bookInfo && (
               <Link href={'/logs/bookSearch'}>다시 검색</Link>
             )}
@@ -198,16 +210,18 @@ const Timer = () => {
         ) : (
           <BookSearchInput />
         )}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{
-            opacity: isOnTimer || isCompleteTimer ? 0 : 1,
-            y: isOnTimer || isCompleteTimer ? -200 : 0,
-          }}
-          transition={{ delay: 0.1, duration: 0.5, type: 'spring' }}
-        >
-          <TimerSelect />
-        </motion.div>
+        {bookInfo.bookInfo !== undefined && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{
+              opacity: isOnTimer || isCompleteTimer ? 0 : 1,
+              y: isOnTimer || isCompleteTimer ? -200 : 0,
+            }}
+            transition={{ delay: 0.1, duration: 0.5, type: 'spring' }}
+          >
+            <TimerSelect />
+          </motion.div>
+        )}
       </div>
       {/* )} */}
 

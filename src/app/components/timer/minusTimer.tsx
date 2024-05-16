@@ -40,7 +40,7 @@ const MinusTimer = ({ timerTime }: TimeType) => {
             clearInterval(timerTick!)
             handleOffTimer()
             handleCompleteTimer()
-            dispatch(setReadTime(`${timerTime / 60}분`))
+            dispatch(setReadTime(timerTime))
           }
           return newTime
         })
@@ -61,7 +61,7 @@ const MinusTimer = ({ timerTime }: TimeType) => {
   const stopTimer = () => {
     handleOffTimer()
     handleCompleteTimer()
-    dispatch(setReadTime(`${timerTime / 60}분`))
+    dispatch(setReadTime(timerTime))
     setTime(moment.duration(timerTime, 'seconds')) // 정지 시 초기 설정 시간으로 리셋합니다.
   }
 
