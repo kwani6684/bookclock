@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDispatch } from 'react-redux'
 import { setAngle } from '@/redux/features/angleSlice'
-// import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 
 import Bento from './components/bento'
@@ -16,7 +16,7 @@ export default function Home() {
   const dispatch = useDispatch()
   const [play, setPlay] = useState(false)
   const [smallBtnPlay, setSmallBtnPlay] = useState(false)
-  // const session = useSession()
+  const session = useSession()
 
   const handleMouseEnter = () => {
     dispatch(setAngle(180))
@@ -40,7 +40,10 @@ export default function Home() {
         <div className="grid gap-x-2 gap-y-2 w-full grid-cols-2">
           {/* 타이머 */}
 
-          <Link className="col-span-2" href={'/timer'}>
+          <Link
+            className="col-span-2"
+            href={session.data ? '/timer' : '/login'}
+          >
             <motion.div
               onHoverStart={handleMouseEnter}
               onHoverEnd={handleMouseLeave}
@@ -48,7 +51,7 @@ export default function Home() {
               <Bento color=" relative bg-semiBrown" height={300}>
                 <motion.div
                   animate={play ? { scale: 1.2 } : { scale: 1 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.3 }}
                   style={{
                     originX: 0,
                     originY: 0.5,
@@ -61,7 +64,7 @@ export default function Home() {
                 <motion.div
                   initial={{ scale: 0.6 }}
                   animate={play ? { scale: 0.75 } : { scale: 0.6 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.3 }}
                   style={{ originX: 0.5, originY: 0.2 }}
                   className="flex justify-center"
                 >
@@ -71,7 +74,7 @@ export default function Home() {
                   <motion.div
                     initial={{ scale: 1 }}
                     animate={play ? { scale: 1.2 } : { scale: 1 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.3 }}
                     className="font-semibold text-mainBg text-ㅣㅎ"
                   >
                     내 독서 시간을 기록해보세요
@@ -82,8 +85,7 @@ export default function Home() {
           </Link>
 
           {/* 내 기록  */}
-          {/* <Link className="col-span-1" href={session.data ? '/logs' : '/login'}> */}
-          <Link className="col-span-1" href={'/logs'}>
+          <Link className="col-span-1" href={session.data ? '/logs' : '/login'}>
             <motion.div
               onHoverStart={handleSmallMouseEnter}
               onHoverEnd={handleSmallMouseLeave}
@@ -91,7 +93,7 @@ export default function Home() {
               <Bento color="bg-smallBento-primary" height={150}>
                 <motion.div
                   animate={smallBtnPlay ? { scale: 1.2 } : { scale: 1 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.2 }}
                   style={{
                     originX: 0,
                     originY: 0.5,
@@ -103,7 +105,7 @@ export default function Home() {
                 <motion.div
                   className="flex justify-center pt-4"
                   animate={smallBtnPlay ? { scale: 1.1 } : { scale: 1 }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <Image src={bookLog} className="w-full" alt="logo" />
                 </motion.div>
