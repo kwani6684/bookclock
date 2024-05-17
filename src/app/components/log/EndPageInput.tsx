@@ -22,7 +22,7 @@ const EndPageInput = () => {
             P.
           </span>
           <input
-            type="text"
+            type="number"
             onChange={(e) => {
               handleEndPage(e)
             }}
