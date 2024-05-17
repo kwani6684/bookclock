@@ -21,7 +21,9 @@ const LogPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center px-2">
-      <div className="default-button w-full text-center py-2 ">기록</div>
+      <div className="bg-semiBrown rounded-[20px] text-white w-full text-center py-2 ">
+        기록
+      </div>
       <div className="grid gap-x-4 grid-cols-2">
         {data.length > 1 &&
           data.map((items: LogDataType, i: number) => (
