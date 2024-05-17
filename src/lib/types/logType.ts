@@ -11,4 +11,6 @@ export interface LogType {
 export interface LogDataType extends LogType {
   _id: ObjectId
   date: string
+  writer: string
+  count: number
 }

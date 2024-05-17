@@ -27,6 +27,7 @@ export default async function showDate(
           finished: data.finished,
           endPage: data.endPage,
           memo: data.memo,
+          count: existLog.count + data.count,
           date: data.date,
         }
         await db

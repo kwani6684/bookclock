@@ -51,6 +51,7 @@ const Timer = () => {
       body: JSON.stringify({
         writer: session.data?.user?.id,
         date: new Date().toISOString(),
+        count: 1,
         ...log,
       }),
     }).then((response) => {
