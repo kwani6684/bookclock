@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { setAngle } from '@/redux/features/angleSlice'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'
 import Bento from './components/bento'
 import TimerCircle from './components/timer/timerCircle'
 import bookLog from '../../public/icon/book-log.png'
@@ -16,6 +16,7 @@ export default function Home() {
   const dispatch = useDispatch()
   const [play, setPlay] = useState(false)
   const [smallBtnPlay, setSmallBtnPlay] = useState(false)
+  const [dashBtnPlay, setDashBtnPlay] = useState(false)
   const session = useSession()
 
   const handleMouseEnter = () => {
@@ -85,7 +86,10 @@ export default function Home() {
           </Link>
 
           {/* 내 기록  */}
-          <Link className="col-span-1" href={session.data ? '/logs' : '/login'}>
+          <Link
+            className="col-span-1 z-50"
+            href={session.data ? '/logs' : '/login'}
+          >
             <motion.div
               onHoverStart={handleSmallMouseEnter}
               onHoverEnd={handleSmallMouseLeave}
@@ -103,7 +107,7 @@ export default function Home() {
                   기록
                 </motion.div>
                 <motion.div
-                  className="flex justify-center pt-4"
+                  className="flex justify-center pt-4 z-50"
                   animate={smallBtnPlay ? { scale: 1.1 } : { scale: 1 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -113,10 +117,34 @@ export default function Home() {
             </motion.div>
           </Link>
           {/* 랭킹 */}
-          <Link className="col-span-1" href={'/ranking'}>
-            <Bento color="bg-smallBento-primary" height={150}>
-              <div className="flex font-black text-mainBg text-xl">랭킹</div>
-            </Bento>
+          <Link className="col-span-1" href={'/dashboard'}>
+            <motion.div
+              onHoverStart={() => {
+                setDashBtnPlay(true)
+              }}
+              onHoverEnd={() => setDashBtnPlay(false)}
+            >
+              <Bento color="bg-smallBento-primary" height={150}>
+                <motion.div
+                  animate={dashBtnPlay ? { scale: 1.2 } : { scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    originX: 0,
+                    originY: 0.5,
+                  }}
+                  className="font-black text-mainBg text-xl"
+                >
+                  대시보드
+                </motion.div>
+                <motion.div
+                  className="text-center text-mainBg pt-3 "
+                  animate={dashBtnPlay ? { scale: 3.5 } : { scale: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <DashboardOutlinedIcon />
+                </motion.div>
+              </Bento>
+            </motion.div>
           </Link>
         </div>
       </div>
