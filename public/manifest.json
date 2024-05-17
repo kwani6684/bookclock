@@ -1,6 +1,6 @@
 {
-    "name": "책깍책깍",
-    "short_name": "bookClock",
+    "name": "읽는시간",
+    "short_name": "읽는시간",
     "icons": [
       {
         "src": "/appIcon/bookClock256.png",
