@@ -79,8 +79,8 @@ const TimerStart = () => {
       <div
         className={`flex z-50 ${showInput ? `justify-between` : `justify-end`}`}
       >
-        <div className="flex pt-6 justify-end">
-          <button onClick={handleNext}>다음</button>
+        <div className="flex mt-6 px-4 py-2  bg-smallBento-hover justify-end default-button hover:bg-[#BE4f31] text-white">
+          <button onClick={handleNext}>시작</button>
         </div>
       </div>
     </div>

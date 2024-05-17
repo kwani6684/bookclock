@@ -77,7 +77,10 @@ const MinusTimer = ({ timerTime }: TimeType) => {
         </div>
       </div>
       <div>
-        <button className="main-button-container mx-1" onClick={stopTimer}>
+        <button
+          className="main-button-container mx-1 hidden"
+          onClick={stopTimer}
+        >
           정지
         </button>
       </div>
