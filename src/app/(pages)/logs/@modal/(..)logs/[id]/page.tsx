@@ -66,7 +66,7 @@ const LogDetailPage = async ({
               <div>{getTimeString()}</div>
             </div>
             <div className="flex flex-col pb-1 items-center justify-center">
-              <div>읽은 날짜</div>
+              <div>최근 읽은 날</div>
               <div>{formatDate(data.date)}</div>
             </div>
           </div>
@@ -74,9 +74,14 @@ const LogDetailPage = async ({
           <div className="flex justify-center items-center">
             <div className="my-4 w-full rounded-lg overflow-hidden shadow-lg px-3 py-3 sm:pt-0 p-10 bg-[#FFFCF9]">
               <div className="mt-4 px-2">
-                <h2 className="text-lg font-bold mb-2 border-black border-b pb-2 text-[#503526]">
-                  메모
-                </h2>
+                <div className="flex justify-between w-full items-center border-black border-b pb-2 text-[#503526]">
+                  {' '}
+                  <div className="text-lg font-bold ">메모</div>
+                  <div className="text-sm text-slate-300">
+                    updated.{formatDate(data.date)}
+                  </div>
+                </div>
+
                 <div
                   className="h-[150px] mx-auto text-[#999999] overflow-y-auto max-h-[45vh]"
                   dangerouslySetInnerHTML={{
