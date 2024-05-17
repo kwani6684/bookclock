@@ -24,7 +24,8 @@ import { ChangeEvent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Timer = () => {
-  const session = useSession()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const session: any = useSession()
   const router = useRouter()
   const controls = useAnimation()
   const isWhatTimer = useSelector((state: RootState) => state.timerReducer)
@@ -48,7 +49,7 @@ const Timer = () => {
     fetch(`/api/log/postLog`, {
       method: 'POST',
       body: JSON.stringify({
-        writer: session.data?.user?.name,
+        writer: session.data?.user?.id,
         date: new Date().toISOString(),
         ...log,
       }),
