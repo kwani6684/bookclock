@@ -1,11 +1,13 @@
 'use client'
 
+import LoadingSpinner from '@/app/components/loadingSpinner'
 import { LogDataType } from '@/lib/types/logType'
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 
 const DashBoard = () => {
   const [totalCount, setTotalCount] = useState()
+  const [isLoading, setIsLoading] = useState(true)
   const [readTimeCount, setReadTimeCount] = useState()
   const [completedBookCount, setCompletedBookCount] = useState()
   const [recentReadBookData, setRecentReadBookData] = useState<LogDataType>()
@@ -14,26 +16,45 @@ const DashBoard = () => {
 
   useEffect(() => {
     if (session.data) {
-      fetch(`/api/dashboard/getReadCount?id=${session.data.user.id}`)
-        .then((r) => r.json())
-        .then((readCount) => setTotalCount(readCount))
-      fetch(`/api/dashboard/getReadTimeCount?id=${session.data.user.id}`)
-        .then((r) => r.json())
-        .then((result) => setReadTimeCount(result))
-      fetch(`/api/dashboard/getCompletedBooks?id=${session.data.user.id}`)
-        .then((r) => r.json())
-        .then((result) => setCompletedBookCount(result))
-      fetch(`/api/dashboard/getRecentReadBook?id=${session.data.user.id}`)
-        .then((r) => r.json())
-        .then((result) => setRecentReadBookData(result))
+      // 모든 fetch 요청을 Promise 배열로 준비
+      const fetchPromises = [
+        fetch(`/api/dashboard/getReadCount?id=${session.data.user.id}`).then(
+          (r) => r.json(),
+        ),
+        fetch(
+          `/api/dashboard/getReadTimeCount?id=${session.data.user.id}`,
+        ).then((r) => r.json()),
+        fetch(
+          `/api/dashboard/getCompletedBooks?id=${session.data.user.id}`,
+        ).then((r) => r.json()),
+        fetch(
+          `/api/dashboard/getRecentReadBook?id=${session.data.user.id}`,
+        ).then((r) => r.json()),
+      ]
+
+      // Promise.all을 사용하여 모든 요청을 동시에 실행
+      Promise.all(fetchPromises).then((results) => {
+        // 각 결과를 상태에 설정
+        setTotalCount(results[0])
+        setReadTimeCount(results[1])
+        setCompletedBookCount(results[2])
+        setRecentReadBookData(results[3])
+
+        // 모든 요청이 완료된 후에 로딩 상태 업데이트
+        setIsLoading(false)
+      })
     }
   }, [session])
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const month = `0${date.getMonth() + 1}`.slice(-2) // 월 (0을 추가하여 두 자리로 만듦)
     const day = `0${date.getDate()}`.slice(-2) // 일 (0을 추가하여 두 자리로 만듦)
 
     return `${month}.${day}` // 결과 형식: "24.05.16"
+  }
+  if (isLoading) {
+    return <LoadingSpinner />
   }
   return (
     <div className="flex-col justify-center">
